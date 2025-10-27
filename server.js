@@ -14,14 +14,14 @@ app.use(cors({
 
 app.use(express.json());
 
-// Initialize Appwrite client
+// Initialize Appwrite client - USE UPDATED VARIABLE NAMES
 const client = new Client()
-    .setEndpoint(process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT)
-    .setProject(process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID)
-    .setKey(process.env.EXPO_PUBLIC_APPWRITE_API_KEY);
+    .setEndpoint(process.env.APPWRITE_ENDPOINT)
+    .setProject(process.env.APPWRITE_PROJECT_ID)
+    .setKey(process.env.APPWRITE_API_KEY);
 
 const databases = new Databases(client);
-const DATABASE_ID = process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID;
+const DATABASE_ID = process.env.APPWRITE_DATABASE_ID;
 
 // Import PayStack routes
 const paystackRoutes = require('./routes/paystack');
@@ -34,7 +34,14 @@ app.get('/api/health', (req, res) => {
     message: 'Backend server is running',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV,
-    apiUrl: process.env.API_BASE_URL
+    apiUrl: process.env.API_BASE_URL,
+    // Add Appwrite config info for debugging
+    appwrite: {
+      endpoint: process.env.APPWRITE_ENDPOINT ? 'set' : 'missing',
+      projectId: process.env.APPWRITE_PROJECT_ID ? 'set' : 'missing',
+      databaseId: process.env.APPWRITE_DATABASE_ID ? 'set' : 'missing',
+      apiKey: process.env.APPWRITE_API_KEY ? 'set' : 'missing'
+    }
   });
 });
 
