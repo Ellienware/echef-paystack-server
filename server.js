@@ -2,7 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const { Client, Databases, Storage, Query, ID } = require('node-appwrite');
 const paystackService = require('./services/paystackService');
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 const app = express();
 
